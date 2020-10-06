@@ -17,3 +17,19 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+// Api router for todo
+Route::get('todos', 'Api\TodoController@index'); 
+Route::get('todos/{id}', 'Api\TodoController@show'); 
+Route::post('todos', 'Api\TodoController@store'); 
+Route::put('todos/{id}', 'Api\TodoController@update');
+Route::delete('todos/{id}', 'Api\TodoController@destroy');
+
+
+// Api router for User
+
+
+// Api router for Auth
+
+
