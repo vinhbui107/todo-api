@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -30,13 +30,13 @@ class TodoController extends Controller
     {
         if(Todo::where('id', $id)->exists()) {
             $todo = Todo::find($id);
-        
+
             return response()->json($todo, 202);
         } else {
             return response()->json([
                 "message" => 'todo not found'
             ], 404);
-        }        
+        }
     }
 
     /**
@@ -70,12 +70,12 @@ class TodoController extends Controller
     {
         if(Todo::where('id', $id)->exists()) {
             $todo = Todo::findorFail($id);
-        
+
             $todo->body = $request->body;
             $todo->updated_at = $request->updated_at;
 
             $todo->save();
-        
+
             return response()->json([
                 'message' => 'Succesfully Deleted'
             ], 200);
@@ -97,7 +97,7 @@ class TodoController extends Controller
         if(Todo::where('id', $id)->exists()) {
             $todo = Todo::findorFail($id);
             $todo->delete();
-        
+
             return response()->json([
                 'message' => 'Succesfully Deleted'
             ], 204);

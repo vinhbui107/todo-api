@@ -1,10 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\User;
 
-class AuthController extends Controller
+
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.

@@ -19,17 +19,19 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-// Api router for todo
-Route::get('todos', 'Api\TodoController@index'); 
-Route::get('todos/{id}', 'Api\TodoController@show'); 
-Route::post('todos', 'Api\TodoController@store'); 
-Route::put('todos/{id}', 'Api\TodoController@update');
-Route::delete('todos/{id}', 'Api\TodoController@destroy');
+// Api route for todo
+Route::group(['prefix' => 'todos'], function () {
+    Route::get('', 'TodoController@index');
+    Route::get('{id}', 'TodoController@show');
+    Route::post('', 'TodoController@store');
+    Route::put('{id}', 'TodoController@update');
+    Route::delete('{id}', 'TodoController@destroy');
+});
 
 
-// Api router for User
-
-
+// Api route for Auth
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('login', 'AuthController@login');
+    Route::post('signup', 'AuthController@signup');
+});
 // Api router for Auth
-
-
