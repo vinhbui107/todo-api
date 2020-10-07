@@ -20,18 +20,31 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 // Api route for todo
-Route::group(['prefix' => 'todos'], function () {
-    Route::get('', 'TodoController@index');
-    Route::get('{id}', 'TodoController@show');
-    Route::post('', 'TodoController@store');
-    Route::put('{id}', 'TodoController@update');
-    Route::delete('{id}', 'TodoController@destroy');
+Route::group([
+    'prefix' => 'todos'
+], function () {
+    Route::group([
+        'middleware' => 'auth:api'
+      ], function() {
+        Route::get('', 'Api\TodoController@todos');
+        Route::post('', 'Api\TodoController@createTodo');
+        Route::put('{id}', 'Api\TodoController@updateTodo');
+        Route::delete('{id}', 'Api\TodoController@deleteTodo');
+      });
 });
 
 
 // Api route for Auth
-Route::group(['prefix' => 'auth'], function () {
-    Route::post('login', 'AuthController@login');
-    Route::post('signup', 'AuthController@signup');
+Route::group([
+    'prefix' => 'auth'
+], function () {
+    Route::post('login', 'Api\AuthController@login');
+    Route::post('signup', 'Api\AuthController@signup');
+
+    Route::group([
+        'middleware' => 'auth:api'
+      ], function() {
+          Route::get('logout', 'Api\AuthController@logout');
+          Route::get('user', 'Api\AuthController@user');
+      });
 });
-// Api router for Auth
