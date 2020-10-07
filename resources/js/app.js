@@ -27,5 +27,7 @@ render(
             <Route path="/signup" component={Signup} />
         </Route>
     </Router>,
-    document.getElementById("todo-app")
+    document.getElementById("app")
 );
+
+ReactDOM.render(<App />, document.getElementById("app"));

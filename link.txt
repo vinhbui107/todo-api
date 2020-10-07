@@ -1,0 +1,2 @@
+https://www.digitalocean.com/community/tutorials/react-axios-react#step-2-%E2%80%94-making-a-get-request
+https://dev.to/devtalhaakbar/reactjs-and-laravel---running-through-a-basic-setup---part-2-20p
