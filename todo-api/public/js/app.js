@@ -70585,14 +70585,14 @@ var TodoList = /*#__PURE__*/function (_Component) {
 
     _this.state = {
       todos: [{
-        "id": 1,
-        "body": "dafadf"
+        id: 1,
+        body: "dafadf"
       }, {
-        "id": 2,
-        "body": "dafadf"
+        id: 2,
+        body: "dafadf"
       }, {
-        "id": 3,
-        "body": "dafadf"
+        id: 3,
+        body: "dafadf"
       }]
     };
     return _this;
@@ -70605,16 +70605,16 @@ var TodoList = /*#__PURE__*/function (_Component) {
 
       var access_token = localStorage.getItem("access_token");
       var my_headers = {
-        'Authorization': 'Bearer ' + access_token,
-        'Accept': 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded'
+        Authorization: "Bearer " + access_token,
+        Accept: "application/json",
+        "Content-Type": "application/x-www-form-urlencoded"
       };
       axios__WEBPACK_IMPORTED_MODULE_1___default()({
         method: "GET",
         url: "http://localhost:8000/api/todos",
         headers: my_headers
       }).then(function (response) {
-        alert(response["data"][0]);
+        console.log(response);
         _this2.state.todos = response.data;
         console.log();
       })["catch"](function (error) {
@@ -71004,8 +71004,8 @@ var Signup = /*#__PURE__*/function (_Component) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Dev\todo-api\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Dev\todo-api\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/vinh/Dev/todo-api/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/vinh/Dev/todo-api/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

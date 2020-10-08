@@ -1,15 +1,15 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import axios from "axios";
-import {isEmpty, isNull} from "lodash";
+import { isEmpty, isNull } from "lodash";
 
 class TodoList extends Component {
     constructor(props) {
         super(props);
         this.state = {
             todos: [
-                { "id": 1, "body": "dafadf"},
-                { "id": 2, "body": "dafadf"},
-                { "id": 3, "body": "dafadf"}
+                { id: 1, body: "dafadf" },
+                { id: 2, body: "dafadf" },
+                { id: 3, body: "dafadf" }
             ]
         };
     }
@@ -17,23 +17,23 @@ class TodoList extends Component {
     componentDidMount() {
         const access_token = localStorage.getItem("access_token");
         const my_headers = {
-            'Authorization': 'Bearer ' + access_token,
-            'Accept': 'application/json',
-            'Content-Type': 'application/x-www-form-urlencoded'
+            Authorization: "Bearer " + access_token,
+            Accept: "application/json",
+            "Content-Type": "application/x-www-form-urlencoded"
         };
         axios({
             method: "GET",
             url: "http://localhost:8000/api/todos",
             headers: my_headers
-            })
+        })
             .then(response => {
-                alert(response["data"][0]);
-               this.state.todos = response.data;
-               console.log()
+                console.log(response);
+                this.state.todos = response.data;
+                console.log();
             })
-            .catch(function (error) {
-            console.log(error);
-        });
+            .catch(function(error) {
+                console.log(error);
+            });
     }
 
     renderTable = () => {
@@ -43,9 +43,9 @@ class TodoList extends Component {
                     <td>{todo.id}</td>
                     <td>{todo.body}</td>
                 </tr>
-            )
-        })
-    }
+            );
+        });
+    };
 
     render() {
         if (isEmpty(this.state.todos)) {
@@ -59,9 +59,7 @@ class TodoList extends Component {
                         <th>content</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {this.renderTable()}
-                </tbody>
+                <tbody>{this.renderTable()}</tbody>
             </table>
         );
     }
