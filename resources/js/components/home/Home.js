@@ -1,5 +1,8 @@
+import Search from "antd/lib/transfer/search";
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
+import NewTodo from "./NewTodo";
+import TodoList from "./TodoList";
 
 class Home extends Component {
     render() {
@@ -14,7 +17,8 @@ class Home extends Component {
         }
         return (
             <div>
-                <h1>Home</h1>
+                <TodoList />
+                <NewTodo />
             </div>
         );
     }
