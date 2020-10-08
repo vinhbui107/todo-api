@@ -40,7 +40,6 @@ class Home extends Component {
     return (
       <div>
         <h3 className="text-center">Your Todo List</h3>
-        <SearchForm />
         <AllTodo />
         <PostForm />
       </div>

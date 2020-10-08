@@ -1,14 +1,22 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import axios from "axios";
 import { isEmpty } from "lodash";
+import SearchForm from "./SearchForm";
 
 class AllTodo extends Component {
   constructor(props) {
     super(props);
     this.state = {
       todos: [],
+      filter: "",
     };
   }
+
+  callbackHandlerFunction = (keyword) => {
+    this.setState({
+      filter: keyword,
+    });
+  };
 
   componentDidMount() {
     const access_token = localStorage.getItem("access_token");
@@ -51,23 +59,45 @@ class AllTodo extends Component {
   }
 
   renderTable = () => {
-    return this.state.todos.map((todo, index) => {
-      return (
-        <tr key="index">
-          <td>{todo.id}</td>
-          <td>{todo.body}</td>
-          <td>
-            <button
-              type="button"
-              onClick={this.onClickDelete.bind(this, todo.id)}
-              className="btn btn-outline-danger btn-sm"
-            >
-              Delete
-            </button>
-          </td>
-        </tr>
-      );
-    });
+    if (this.state.filter === null) {
+      return this.state.todos.map((todo, index) => {
+        return (
+          <tr key="index">
+            <td>{todo.id}</td>
+            <td>{todo.body}</td>
+            <td>
+              <button
+                type="button"
+                onClick={this.onClickDelete.bind(this, todo.id)}
+                className="btn btn-outline-danger btn-sm"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        );
+      });
+    } else {
+      return this.state.todos
+        .filter((todo) => todo.body.include(this.state.filter))
+        .map((todo, index) => {
+          return (
+            <tr key="index">
+              <td>{todo.id}</td>
+              <td>{todo.body}</td>
+              <td>
+                <button
+                  type="button"
+                  onClick={this.onClickDelete.bind(this, todo.id)}
+                  className="btn btn-outline-danger btn-sm"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          );
+        });
+    }
   };
 
   render() {
@@ -75,16 +105,19 @@ class AllTodo extends Component {
       return <h3>Create your first todo.</h3>;
     }
     return (
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Content</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>{this.renderTable()}</tbody>
-      </table>
+      <>
+        <SearchForm handleClickParent={this.callbackHandlerFunction} />
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Content</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>{this.renderTable()}</tbody>
+        </table>
+      </>
     );
   }
 }
