@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 
 class Signup extends Component {
     constructor(props) {
@@ -13,40 +13,61 @@ class Signup extends Component {
         };
     }
 
-    handleChange(event) {
+    onEmailChange = e => {
         this.setState({
-            [event.target.name]: event.target.value
+            email: e.target.value
         });
-    }
+    };
+    onNameChange = e => {
+        this.setState({
+            name: e.target.value
+        });
+    };
+    onPasswordChange = e => {
+        this.setState({
+            password: e.target.value
+        });
+    };
+    onPasswordConfirmationChange = e => {
+        this.setState({
+            password_confirmation: e.target.value
+        });
+    };
 
     handleSubmit(event) {
         event.preventDefault();
-        console.log(event);
         const user = {
             email: this.state.email,
             name: this.state.name,
             password: this.state.password,
             password_confirmation: this.state.password_confirmation
         };
-        console.log(user);
 
-        axios
-            .post("http://localhost:8000/api/auth/signup", {
-                email: user.email,
-                name: user.name,
-                password: user.password,
-                password_confirmation: user.password_confirmation
-            })
-            .then(function(response) {
-                console.log(response);
-            })
-            .catch(function(error) {
-                console.log(error);
-            });
+        if (user.password === user.password_confirmation) {
+            axios
+                .post("http://127.0.0.1:8000/api/auth/signup", {
+                    email: user.email,
+                    name: user.name,
+                    password: user.password,
+                    password_confirmation: user.password_confirmation
+                })
+                .then(response => {
+                    alert("Create new user successfully.");
+                    this.props.history.push("/");
+                })
+                .catch(function(error) {
+                    alert("something wrong!!!!!!");
+                    console.log(error);
+                });
+        } else {
+            alert("Password not match");
+        }
     }
 
     render() {
-        if (this.state.redirectToReferrer) return <Redirect to={"/login"} />;
+        if (localStorage.getItem("access_token") !== null) {
+            this.props.history.push("/");
+        }
         return (
             <div>
                 <form onSubmit={this.handleSubmit.bind(this)}>
@@ -57,7 +78,7 @@ class Signup extends Component {
                             className="form-control"
                             id="email"
                             value={this.state.email}
-                            onChange={this.handleChange}
+                            onChange={this.onEmailChange}
                         />
                     </div>
                     <div className="form-group">
@@ -65,7 +86,7 @@ class Signup extends Component {
                         <input
                             type="text"
                             value={this.state.name}
-                            onChange={this.handleChange}
+                            onChange={this.onNameChange}
                             className="form-control"
                             id="name"
                         />
@@ -77,7 +98,7 @@ class Signup extends Component {
                             className="form-control"
                             id="password"
                             value={this.state.password}
-                            onChange={this.handleChange}
+                            onChange={this.onPasswordChange}
                         />
                     </div>
                     <div className="form-group">
@@ -89,12 +110,15 @@ class Signup extends Component {
                             className="form-control"
                             id="password_confirmation"
                             value={this.state.password_confirmation}
-                            onChange={this.handleChange.bind(this)}
+                            onChange={this.onPasswordConfirmationChange}
                         />
                     </div>
                     <button type="submit" className="btn btn-primary">
                         Submit
                     </button>
+                    <Link to="/login" className="text-black ml-5">
+                        I'm already member
+                    </Link>
                 </form>
             </div>
         );

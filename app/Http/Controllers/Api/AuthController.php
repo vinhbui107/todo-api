@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-header("Access-Control-Allow-Origin: *");
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;

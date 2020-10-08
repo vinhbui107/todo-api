@@ -25,6 +25,6 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.6.3/umd/react.production.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.6.3/umd/react-dom.production.min.js"></script>
-        <script defer src="../js/app.js"></script>
+        <script crossorigin defer src="../js/app.js"></script>
     </body>
 </html>

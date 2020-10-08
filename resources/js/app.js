@@ -4,7 +4,6 @@ import App from "./components/App";
 import axios from "axios";
 
 //config global for axios
-axios.defaults.baseURL = "http://localhost:8000/api";
 axios.defaults.headers.get["Accept"] = "application/json";
 axios.defaults.headers.get["Content-Type"] =
     "application/x-www-form-urlencoded";
