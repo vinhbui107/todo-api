@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api;
+header("Access-Control-Allow-Origin: *");
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ use App\User;
 
 class AuthController extends Controller
 {
-    
+
     public function signup(Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
@@ -74,15 +75,15 @@ class AuthController extends Controller
         if(!is_null($user)) {
             auth()->user()->token()->revoke();
             return response()->json([
-                "status" => $this->sucess_status, 
-                "success" => true, 
+                "status" => $this->sucess_status,
+                "success" => true,
                 "user" => $user
             ]);
         }
         else {
             return response()->json([
-                "status" => "failed", 
-                "success" => false, 
+                "status" => "failed",
+                "success" => false,
                 "message" => "Whoops! no user found"
             ]);
         }
@@ -92,15 +93,15 @@ class AuthController extends Controller
         $user = Auth::user();
         if(!is_null($user)) {
             return response()->json([
-                "status" => $this->sucess_status, 
-                "success" => true, 
+                "status" => $this->sucess_status,
+                "success" => true,
                 "user" => $user
             ]);
         }
         else {
             return response()->json([
-                "status" => "failed", 
-                "success" => false, 
+                "status" => "failed",
+                "success" => false,
                 "message" => "Whoops! no user found"
             ]);
         }

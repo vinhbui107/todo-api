@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api;
+header("Access-Control-Allow-Origin: *");
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -22,17 +23,17 @@ class TodoController extends Controller
 
         if(count($todos) > 0) {
             return response()->json([
-                "status" => $this->sucess_status, 
-                "success" => true, 
-                "count" => count($todos), 
+                "status" => $this->sucess_status,
+                "success" => true,
+                "count" => count($todos),
                 "data" => $todos
             ]);
         }
 
         else {
             return response()->json([
-                "status" => "failed", 
-                "success" => false, 
+                "status" => "failed",
+                "success" => false,
                 "message" => "Whoops! no todo found"
             ]);
         }
@@ -44,7 +45,7 @@ class TodoController extends Controller
         $validator = Validator::make($request->all(), [
             'body' => 'required|string|max:255'
         ]);
-        
+
         if($validator->fails()) {
             return response()->json([
                 "validation_errors" => $validator->errors()
@@ -58,16 +59,16 @@ class TodoController extends Controller
 
         if(!is_null($new_todo)) {
             return response()->json([
-                "status" => $this->sucess_status, 
-                "success" => true, 
+                "status" => $this->sucess_status,
+                "success" => true,
                 "data" => $new_todo
             ]);
         }
 
         else {
             return response()->json([
-                "status" => "failed", 
-                "success" => false, 
+                "status" => "failed",
+                "success" => false,
                 "message" => "Whoops! task not created."
             ]);
         }
@@ -79,7 +80,7 @@ class TodoController extends Controller
         $validator = Validator::make($request->all(), [
             "body" => 'required|max:255',
         ]);
-        
+
         if($validator->fails()) {
             return response()->json([
                 "validation_errors" => $validator->errors()
@@ -88,21 +89,21 @@ class TodoController extends Controller
 
         // find todo user want to update
         $todo = Todo::find($id);
-        
+
         if(!is_null($todo)) {
             $todo->body = $request->get("body");
             $todo->save();
-            
+
             return response()->json([
-                "status" => $this->sucess_status, 
-                "success" => true, 
+                "status" => $this->sucess_status,
+                "success" => true,
                 "data" => $todo
             ]);
         } else {
             // not found todo so we return error
             return response()->json([
-                "status" => "failed", 
-                "success" => false, 
+                "status" => "failed",
+                "success" => false,
                 "message" => "Alert! todo not found"
             ]);
         }
@@ -114,36 +115,36 @@ class TodoController extends Controller
         if($id == 'undefined' || $id == "") {
             // return error if user try delete without id
             return response()->json([
-                "status" => "failed", 
-                "success" => false, 
+                "status" => "failed",
+                "success" => false,
                 "message" => "Alert! Delete with ID todo pls!"]);
         }
         // find todo user want to delete
         $todo = Todo::where("id", $id)->get();
-        
+
         if(!is_null($todo)) {
             $delete_status = Todo::where("id", $id)->delete();; // try to delete todo
             if($delete_status == 1) {
                 // return if todo get out of our database
                 return response()->json([
-                    "status" => $this->sucess_status, 
-                    "success" => true, 
+                    "status" => $this->sucess_status,
+                    "success" => true,
                     "message" => "Success! todo deleted"
                 ]);
             }
             else {
                 // something wrong when we delete so return error
                 return response()->json([
-                    "status" => "failed", 
-                    "success" => false, 
+                    "status" => "failed",
+                    "success" => false,
                     "message" => "Alert! todo not deleted"
                 ]);
             }
         } else {
             // not found todo so we return error
             return response()->json([
-                "status" => "failed", 
-                "success" => false, 
+                "status" => "failed",
+                "success" => false,
                 "message" => "Alert! todo not found"
             ]);
         }
