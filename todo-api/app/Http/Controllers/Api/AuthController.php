@@ -92,7 +92,7 @@ class AuthController extends Controller
         $user = Auth::user();
         if(!is_null($user)) {
             return response()->json([
-                "status" => $this->sucess_status,
+                "status" => 200,
                 "success" => true,
                 "user" => $user
             ]);

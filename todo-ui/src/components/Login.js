@@ -38,7 +38,6 @@ class Login extends Component {
       password: this.state.password,
       remember_me: this.state.remember_me,
     };
-    console.log(user);
 
     axios
       .post("http://localhost:8000/api/auth/login", {
@@ -79,6 +78,7 @@ class Login extends Component {
             id="password"
             value={this.state.password}
             onChange={this.onPasswordChange}
+            autoComplete="off"
           />
         </div>
         <div className="form-group form-check">
@@ -88,6 +88,7 @@ class Login extends Component {
             id="remember_me"
             value={this.state.remember_me}
             onChange={this.onRememberMeChange}
+            autoComplete="off"
           />
           <label className="form-check-label" htmlFor="remember_me">
             Remember Me

@@ -79,6 +79,7 @@ class Signup extends Component {
               id="email"
               value={this.state.email}
               onChange={this.onEmailChange}
+              autoComplete="off"
             />
           </div>
           <div className="form-group">
@@ -89,6 +90,7 @@ class Signup extends Component {
               onChange={this.onNameChange}
               className="form-control"
               id="name"
+              autoComplete="off"
             />
           </div>
           <div className="form-group">
@@ -99,6 +101,7 @@ class Signup extends Component {
               id="password"
               value={this.state.password}
               onChange={this.onPasswordChange}
+              autoComplete="off"
             />
           </div>
           <div className="form-group">
@@ -109,6 +112,7 @@ class Signup extends Component {
               id="password_confirmation"
               value={this.state.password_confirmation}
               onChange={this.onPasswordConfirmationChange}
+              autoComplete="off"
             />
           </div>
           <button type="submit" className="btn btn-primary">
