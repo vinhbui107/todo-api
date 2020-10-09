@@ -4,18 +4,10 @@ class SearchForm extends Component {
   constructor(props) {
     super(props);
     this.setState = {
-      filter: "",
+      searchKey: "",
+      searchResult: []
     };
   }
-
-  onSearchChange = (e) => {
-    this.setState({
-      filter: e.target.value,
-    });
-    if (this.state.filter !== null) {
-      this.props.handleClickParent(this.state.filter);
-    }
-  };
 
   render() {
     return (
@@ -25,8 +17,8 @@ class SearchForm extends Component {
             type="text"
             className="form-control"
             id="search"
-            value={this.state.filter}
-            onChange={this.onSearchChange}
+            value={this.props.searchKey}
+            onChange={(event)=>this.props.handleSearch(event.target.value)}
             placeholder="Search Todo"
             autoComplete="off"
           />

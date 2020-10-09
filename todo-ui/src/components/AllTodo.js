@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import axios from "axios";
 import { isEmpty } from "lodash";
 import SearchForm from "./SearchForm";
@@ -8,15 +8,10 @@ class AllTodo extends Component {
     super(props);
     this.state = {
       todos: [],
-      filter: "",
+      searchKey: "",
+      searchResult: []
     };
   }
-
-  callbackHandlerFunction = (keyword) => {
-    this.setState({
-      filter: keyword,
-    });
-  };
 
   componentDidMount() {
     const access_token = localStorage.getItem("access_token");
@@ -59,10 +54,10 @@ class AllTodo extends Component {
   }
 
   renderTable = () => {
-    if (this.state.filter === null) {
-      return this.state.todos.map((todo, index) => {
+      if(this.state.searchKey.length <= 0) {
+        return this.state.todos.map((todo, index) => {
         return (
-          <tr key="index">
+          <tr key={index}>
             <td>{todo.id}</td>
             <td>{todo.body}</td>
             <td>
@@ -76,29 +71,46 @@ class AllTodo extends Component {
             </td>
           </tr>
         );
-      });
-    } else {
-      return this.state.todos
-        .filter((todo) => todo.body.include(this.state.filter))
-        .map((todo, index) => {
-          return (
-            <tr key="index">
-              <td>{todo.id}</td>
-              <td>{todo.body}</td>
-              <td>
-                <button
-                  type="button"
-                  onClick={this.onClickDelete.bind(this, todo.id)}
-                  className="btn btn-outline-danger btn-sm"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          );
         });
-    }
+      } else {
+        return this.state.searchResult.map((todo, index) => {
+        return (
+          <tr key={index}>
+            <td>{todo.id}</td>
+            <td>{todo.body}</td>
+            <td>
+              <button
+                type="button"
+                onClick={this.onClickDelete.bind(this, todo.id)}
+                className="btn btn-outline-danger btn-sm"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        );
+        });
+      }
   };
+
+  handleSearch = (searchKey) => {
+    let searchResult = this.state.todos;
+    let newArray = [];
+    if(searchKey.length <= 0) {
+        newArray = searchResult;
+    } else {
+        searchKey.toLowerCase();
+        for(let todo of searchResult) {
+            if(todo.body.includes(searchKey)) {
+                newArray.push(todo);
+            }
+        }
+    }
+    this.setState({
+        searchResult : newArray,
+        searchKey: searchKey
+    });
+  }
 
   render() {
     if (isEmpty(this.state.todos)) {
@@ -106,7 +118,7 @@ class AllTodo extends Component {
     }
     return (
       <>
-        <SearchForm handleClickParent={this.callbackHandlerFunction} />
+        <SearchForm valueSearch={this.state.searchKey} handleSearch={this.handleSearch}/>
         <table className="table">
           <thead>
             <tr>
