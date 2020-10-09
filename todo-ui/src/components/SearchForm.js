@@ -3,10 +3,25 @@ import React, { Component } from "react";
 class SearchForm extends Component {
   constructor(props) {
     super(props);
-    this.setState = {
-      searchKey: "",
-      searchResult: []
-    };
+  }
+
+  handleSearch = (searchKey) => {
+    let searchResult = this.props.todos;
+    let newArray = [];
+    if(searchKey.length <= 0) {
+        newArray = searchResult;
+    } else {
+        searchKey.toLowerCase();
+        for(let todo of searchResult) {
+            if(todo.body.includes(searchKey)) {
+                newArray.push(todo);
+            }
+        }
+    }
+    this.setState({
+        searchResult : newArray,
+        searchKey: searchKey
+    });
   }
 
   render() {
@@ -18,7 +33,7 @@ class SearchForm extends Component {
             className="form-control"
             id="search"
             value={this.props.searchKey}
-            onChange={(event)=>this.props.handleSearch(event.target.value)}
+            onChange={this.handleSearch(this.props.searchKey)}
             placeholder="Search Todo"
             autoComplete="off"
           />

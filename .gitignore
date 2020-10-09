@@ -1,5 +1,5 @@
-/todo-api/node_modules
-/todo-ui/node_modules
+/todo-api/node_modules/
+/todo-ui/node_modules/
 /todo-api/public/hot
 /todo-api/public/storage
 /todo-api/storage/*.key

@@ -10,9 +10,9 @@ class Home extends Component {
     this.logout = this.logout.bind(this);
   }
   logout () {
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("user_id");
-    localStorage.removeItem("name");
+    localStorage.clear();
+    sessionStorage.clear();
+    window.location.reload();
   }
 
   getInfo() {
@@ -51,10 +51,8 @@ class Home extends Component {
     return (
       <div>
         <h4 className="text-right">Hi {userName}</h4>
-        <a className="text-right" href="#" onClick={this.logout}>Logout</a>
+        <button className="btn btn-warning btn-sm" onClick={this.logout}>Logout</button>
         <h2 className="text-center">Your Todo List</h2>
-
-
         <AllTodo />
         <PostForm />
       </div>

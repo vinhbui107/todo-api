@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { isEmpty } from "lodash";
 import SearchForm from "./SearchForm";
+import Todo from "./Todo"
 
 class AllTodo extends Component {
   constructor(props) {
@@ -9,7 +10,8 @@ class AllTodo extends Component {
     this.state = {
       todos: [],
       searchKey: "",
-      searchResult: []
+      searchResult: [],
+      temp: []
     };
   }
 
@@ -17,7 +19,7 @@ class AllTodo extends Component {
     const access_token = localStorage.getItem("access_token");
     const my_headers = {
       Authorization: "Bearer " + access_token,
-      Accept: "application/jso  n",
+      Accept: "application/json",
       "Content-Type": "application/x-www-form-urlencoded",
     };
     axios({
@@ -33,92 +35,19 @@ class AllTodo extends Component {
       });
   }
 
-  onClickDelete(id) {
-    const access_token = localStorage.getItem("access_token");
-    const my_headers = {
-      Authorization: "Bearer " + access_token,
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    };
-    axios
-      .delete("http://localhost:8000/api/todos/" + id, { headers: my_headers })
-      .then((response) => {
-        alert("Delete todo successfully.");
-        window.location.reload();
-        console.log(response);
-      })
-      .catch(function (error) {
-        alert("something wrong!!!!!!");
-        console.log(error);
-      });
-  }
-
-  renderTable = () => {
-      if(this.state.searchKey.length <= 0) {
-        return this.state.todos.map((todo, index) => {
-        return (
-          <tr key={index}>
-            <td>{todo.id}</td>
-            <td>{todo.body}</td>
-            <td>
-              <button
-                type="button"
-                onClick={this.onClickDelete.bind(this, todo.id)}
-                className="btn btn-outline-danger btn-sm"
-              >
-                Delete
-              </button>
-            </td>
-          </tr>
-        );
-        });
-      } else {
-        return this.state.searchResult.map((todo, index) => {
-        return (
-          <tr key={index}>
-            <td>{todo.id}</td>
-            <td>{todo.body}</td>
-            <td>
-              <button
-                type="button"
-                onClick={this.onClickDelete.bind(this, todo.id)}
-                className="btn btn-outline-danger btn-sm"
-              >
-                Delete
-              </button>
-            </td>
-          </tr>
-        );
-        });
-      }
-  };
-
-  handleSearch = (searchKey) => {
-    let searchResult = this.state.todos;
-    let newArray = [];
-    if(searchKey.length <= 0) {
-        newArray = searchResult;
-    } else {
-        searchKey.toLowerCase();
-        for(let todo of searchResult) {
-            if(todo.body.includes(searchKey)) {
-                newArray.push(todo);
-            }
-        }
-    }
-    this.setState({
-        searchResult : newArray,
-        searchKey: searchKey
-    });
-  }
-
   render() {
+    if(this.state.searchKey.length > 0) {
+      this.state.temp = this.state.searchResult;
+    } else {
+      this.state.temp = this.state.todos;
+    }
+
     if (isEmpty(this.state.todos)) {
       return <h3>Create your first todo.</h3>;
     }
     return (
       <>
-        <SearchForm valueSearch={this.state.searchKey} handleSearch={this.handleSearch}/>
+        <SearchForm todos={this.state.todos} searchKey={this.state.searchKey} searchResult={this.state.searchResult}/>
         <table className="table">
           <thead>
             <tr>
@@ -127,7 +56,16 @@ class AllTodo extends Component {
               <th scope="col">Action</th>
             </tr>
           </thead>
-          <tbody>{this.renderTable()}</tbody>
+          <tbody>
+          {
+            this.state.temp.map((todo, index) => {
+              return (
+                <tr key={index}>
+                  <Todo todo={todo} index={index} />
+                </tr>
+              )
+            })
+          }</tbody>
         </table>
       </>
     );
