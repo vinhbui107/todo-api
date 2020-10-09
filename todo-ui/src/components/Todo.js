@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { Button } from "react-bootstrap";
+import { Dialog } from "react-bootstrap-easy-dialog";
 
 class Todo extends Component {
 
@@ -22,6 +24,7 @@ class Todo extends Component {
         });
     }
 
+
     onClickEdit() {
 
     }
@@ -32,12 +35,8 @@ class Todo extends Component {
             <td>{this.props.todo.id}</td>
             <td>{this.props.todo.body}</td>
             <td>
-            <button
-                type="button"
-                className="btn btn-outline-primary btn-sm mr-3"
-            >
-                Edit
-            </button>
+            <PromptWithInputProps />
+
             <button
                 type="button"
                 className="btn btn-outline-danger btn-sm"
@@ -51,3 +50,27 @@ class Todo extends Component {
   }
 }
 export default Todo;
+
+function PromptWithInputProps() {
+    return (
+        <div>
+        <Dialog>
+            {dialog => {
+            async function handleClick() {
+                const inputValue = await dialog.prompt(
+                "Change your content of task.",
+                {
+                    title: "Select a smart phone",
+                    inputProps: {
+                        defaultValue: "",
+                    }
+                }
+                );
+                console.log(inputValue);
+            }
+            return <Button onClick={handleClick}>Edit</Button>;
+            }}
+        </Dialog>
+        </div>
+    );
+    }
