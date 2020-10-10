@@ -1,9 +1,8 @@
-/todo-api/node_modules/
-/todo-ui/node_modules/
+
 /todo-api/public/hot
 /todo-api/public/storage
 /todo-api/storage/*.key
-/todo-api/vendor
+
 /todo-api.env
 /todo-api.env.backup
 /todo-api.phpunit.result.cache
